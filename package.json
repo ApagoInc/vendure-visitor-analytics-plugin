@@ -1,0 +1,78 @@
+{
+  "name": "@apagoinc/vendure-visitor-analytics-plugin",
+  "version": "0.0.1",
+  "description": "Visitor analytics plugin for Vendure",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf tsconfig.lib.tsbuildinfo dist __admin-ui __data__ dev-server/vendure.sqlite",
+    "transpile": "yarn clean && tsc -p tsconfig.lib.json",
+    "build": "yarn transpile && copyfiles -u 1 'src/ui/**/*' dist",
+    "test": "vitest run",
+    "dev": "ts-node --transpile-only dev-server/index.ts",
+    "prepare": "husky",
+    "prettier": "prettier --check \"**/*.*\"",
+    "fix": "yarn fix:eslint && yarn fix:prettier",
+    "fix:eslint": "eslint --fix \"**/*.*\"",
+    "fix:prettier": "prettier --write \"**/*.*\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ApagoInc/vendure-visitor-analytics-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ApagoInc/vendure-visitor-analytics-plugin/issues"
+  },
+  "keywords": [
+    "vendure",
+    "plugin",
+    "analytics",
+    "visitor",
+    "ecommerce"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "author": "Apago Inc",
+  "license": "MIT",
+  "lint-staged": {
+    "**/*.*": [
+      "yarn fix"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.4.0",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.37.0",
+    "@types/copyfiles": "^2",
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.2.2",
+    "@vendure/admin-ui-plugin": "^3.4.4",
+    "@vendure/asset-server-plugin": "^3.4.4",
+    "@vendure/core": "^3.4.4",
+    "@vendure/testing": "^3.4.4",
+    "@vendure/ui-devkit": "^3.4.4",
+    "better-sqlite3": "^12.4.1",
+    "copyfiles": "^2.4.1",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "gql.tada": "^1.8.13",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
+    "prettier": "^3.6.2",
+    "react": "^19.2.0",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "5.8.3",
+    "typescript-eslint": "^8.46.0",
+    "unplugin-swc": "^1.5.7",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
+  },
+  "packageManager": "yarn@4.6.0+sha512.5383cc12567a95f1d668fbe762dfe0075c595b4bfff433be478dbbe24e05251a8e8c3eb992a986667c1d53b6c3a9c85b8398c35a960587fbd9fa3a0915406728"
+}
