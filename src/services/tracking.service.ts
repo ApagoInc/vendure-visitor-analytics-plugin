@@ -111,22 +111,17 @@ export class TrackingService {
         const activeChannel = channels.items.find(c => c.id === ctx.channelId)
 
         const now = new Date()
-        const newSession = new VisitorSession({
+        const customer = ctx.activeUserId
+            ? await this.customerService.findOneByUserId(ctx, ctx.activeUserId)
+            : null
+
+        return this.connection.getRepository(ctx, VisitorSession).save({
             sessionToken,
             firstSeen: now,
             lastSeen: now,
             channels: activeChannel ? [activeChannel] : [],
-            customer: ctx.activeUserId
-                ? await this.customerService.findOneByUserId(
-                      ctx,
-                      ctx.activeUserId
-                  )
-                : null
+            customer
         })
-
-        return this.connection
-            .getRepository(ctx, VisitorSession)
-            .save(newSession)
     }
 
     /**
