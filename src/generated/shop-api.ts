@@ -9008,12 +9008,12 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "trackVisitorEvent",
+            "name": "trackProductView",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "TrackVisitorEventPayload"
+                "name": "TrackProductViewResult"
               }
             },
             "args": [
@@ -9023,7 +9023,7 @@ const introspection = {
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "TrackVisitorEventInput"
+                    "name": "TrackProductViewInput"
                   }
                 }
               }
@@ -18543,47 +18543,16 @@ const introspection = {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TrackVisitorEventInput",
+        "name": "TrackProductViewInput",
         "inputFields": [
           {
-            "name": "type",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "VisitorEventType"
-              }
-            }
-          },
-          {
-            "name": "path",
+            "name": "productId",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "SCALAR",
-                "name": "String"
+                "name": "ID"
               }
-            }
-          },
-          {
-            "name": "productId",
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID"
-            }
-          },
-          {
-            "name": "referrer",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            }
-          },
-          {
-            "name": "sessionToken",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
             }
           }
         ],
@@ -18591,10 +18560,10 @@ const introspection = {
       },
       {
         "kind": "OBJECT",
-        "name": "TrackVisitorEventPayload",
+        "name": "TrackProductViewResult",
         "fields": [
           {
-            "name": "ok",
+            "name": "success",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -19149,20 +19118,6 @@ const introspection = {
           {
             "kind": "OBJECT",
             "name": "VerificationTokenInvalidError"
-          }
-        ]
-      },
-      {
-        "kind": "ENUM",
-        "name": "VisitorEventType",
-        "enumValues": [
-          {
-            "name": "PAGE_VIEW",
-            "isDeprecated": false
-          },
-          {
-            "name": "PRODUCT_VIEW",
-            "isDeprecated": false
           }
         ]
       },

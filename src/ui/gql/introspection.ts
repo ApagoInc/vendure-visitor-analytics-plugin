@@ -24960,6 +24960,37 @@ const introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "ProductTrendPoint",
+        "fields": [
+          {
+            "name": "date",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "views",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "ProductVariant",
         "fields": [
           {
@@ -25874,15 +25905,6 @@ const introspection = {
                 "kind": "SCALAR",
                 "name": "ID"
               }
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "slug",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
             },
             "args": [],
             "isDeprecated": false
@@ -27022,6 +27044,68 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "analyticsProductTrend",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ProductTrendPoint"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "productId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              },
+              {
+                "name": "range",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateRange"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "analyticsSummary",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "VisitorSummary"
+              }
+            },
+            "args": [
+              {
+                "name": "range",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateRange"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "analyticsTopProducts",
             "type": {
               "kind": "NON_NULL",
@@ -27045,29 +27129,6 @@ const introspection = {
                 },
                 "defaultValue": "10"
               },
-              {
-                "name": "range",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "DateRange"
-                  }
-                }
-              }
-            ],
-            "isDeprecated": false
-          },
-          {
-            "name": "analyticsVisitorSummary",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "VisitorSummary"
-              }
-            },
-            "args": [
               {
                 "name": "range",
                 "type": {
@@ -37578,30 +37639,6 @@ const introspection = {
         "kind": "OBJECT",
         "name": "VisitorSummary",
         "fields": [
-          {
-            "name": "anonymousVisitors",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int"
-              }
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "authenticatedVisitors",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int"
-              }
-            },
-            "args": [],
-            "isDeprecated": false
-          },
           {
             "name": "totalUniqueVisitors",
             "type": {

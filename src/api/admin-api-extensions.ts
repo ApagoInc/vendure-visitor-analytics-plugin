@@ -15,7 +15,14 @@ export const adminApiExtensions = gql`
     type ProductViewStat {
         productId: ID!
         name: String
-        slug: String
+        views: Int!
+    }
+
+    """
+    Product view trend over time (for drill-down charts).
+    """
+    type ProductTrendPoint {
+        date: String!
         views: Int!
     }
 
@@ -24,18 +31,18 @@ export const adminApiExtensions = gql`
     """
     type VisitorSummary {
         totalUniqueVisitors: Int!
-        authenticatedVisitors: Int!
-        anonymousVisitors: Int!
     }
 
     extend type Query {
         """
         Unique visitors timeseries for the given date range (channel-aware).
+        Returns daily unique visitor counts for chart display.
         """
         analyticsVisitors(range: DateRange!): [VisitorTimeseriesPoint!]!
 
         """
         Most viewed products for the given date range (channel-aware).
+        Returns top N products sorted by view count.
         """
         analyticsTopProducts(
             range: DateRange!
@@ -43,8 +50,18 @@ export const adminApiExtensions = gql`
         ): [ProductViewStat!]!
 
         """
-        Summary rollup (total, authenticated vs anonymous) for the date range.
+        View trend for a specific product over time (channel-aware).
+        Returns daily view counts for drill-down analysis.
         """
-        analyticsVisitorSummary(range: DateRange!): VisitorSummary!
+        analyticsProductTrend(
+            productId: ID!
+            range: DateRange!
+        ): [ProductTrendPoint!]!
+
+        """
+        Summary metrics for the selected date range.
+        Returns total unique visitors.
+        """
+        analyticsSummary(range: DateRange!): VisitorSummary!
     }
 `

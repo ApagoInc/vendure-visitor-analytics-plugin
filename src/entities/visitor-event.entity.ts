@@ -1,20 +1,31 @@
 import {
     Channel,
+    ChannelAware,
     type DeepPartial,
     Product,
     VendureEntity
 } from "@vendure/core"
-import { Column, Entity, Index, ManyToOne, RelationId } from "typeorm"
+import {
+    Column,
+    Entity,
+    Index,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    RelationId
+} from "typeorm"
 
 import { VisitorSession } from "./visitor-session.entity"
 
-export type VisitorEventType = "PAGE_VIEW" | "PRODUCT_VIEW"
+export type VisitorEventType = "PRODUCT_VIEW"
 
 @Entity()
-@Index(["channel", "createdAt"])
+@Index(["createdAt"])
+@Index(["eventKey", "createdAt"])
 @Index(["session", "createdAt"])
+@Index(["session", "eventKey"])
 @Index(["product", "createdAt"])
-export class VisitorEvent extends VendureEntity {
+export class VisitorEvent extends VendureEntity implements ChannelAware {
     constructor(input?: DeepPartial<VisitorEvent>) {
         super(input)
     }
@@ -27,25 +38,15 @@ export class VisitorEvent extends VendureEntity {
     @RelationId((e: VisitorEvent) => e.session)
     sessionId!: string | number
 
-    @ManyToOne(() => Channel, { nullable: false, onDelete: "CASCADE" })
-    channel!: Channel
-    @RelationId((e: VisitorEvent) => e.channel)
-    channelId!: string | number
-
-    @Column({ type: "varchar", length: 1024 })
-    path!: string
-
     @ManyToOne(() => Product, { nullable: true, onDelete: "SET NULL" })
     product?: Product
     @RelationId((e: VisitorEvent) => e.product)
     productId?: string | number
 
-    @Column({ type: "varchar", length: 1024, nullable: true })
-    referrer?: string
-
-    @Column({ type: "boolean", default: false })
-    isBot!: boolean
-
     @Column({ type: "varchar", length: 128, nullable: true, unique: false })
     eventKey?: string
+
+    @ManyToMany(() => Channel)
+    @JoinTable()
+    channels: Channel[]
 }

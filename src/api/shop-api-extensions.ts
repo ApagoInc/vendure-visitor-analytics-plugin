@@ -1,26 +1,26 @@
 import gql from "graphql-tag"
 
 export const shopApiExtensions = gql`
-    enum VisitorEventType {
-        PAGE_VIEW
-        PRODUCT_VIEW
+    """
+    Input for tracking a product view event.
+    Session is automatically managed via RequestContext.
+    """
+    input TrackProductViewInput {
+        productId: ID!
     }
 
-    input TrackVisitorEventInput {
-        type: VisitorEventType!
-        path: String!
-        productId: ID
-        referrer: String
-        sessionToken: String
-    }
-
-    type TrackVisitorEventPayload {
-        ok: Boolean!
+    """
+    Result of tracking a product view.
+    """
+    type TrackProductViewResult {
+        success: Boolean!
     }
 
     extend type Mutation {
-        trackVisitorEvent(
-            input: TrackVisitorEventInput!
-        ): TrackVisitorEventPayload!
+        """
+        Track a product view event from the storefront.
+        Uses the current session automatically - no manual session management needed.
+        """
+        trackProductView(input: TrackProductViewInput!): TrackProductViewResult!
     }
 `

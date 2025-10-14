@@ -12,6 +12,7 @@ import { DailyProductViewStat } from "./entities/daily-product-view-stat.entity"
 import { DailyVisitorStat } from "./entities/daily-visitor-stat.entity"
 import { VisitorEvent } from "./entities/visitor-event.entity"
 import { VisitorSession } from "./entities/visitor-session.entity"
+import { AggregationService, QueryService, TrackingService } from "./services"
 
 @VendurePlugin({
     adminApiExtensions: {
@@ -30,14 +31,13 @@ import { VisitorSession } from "./entities/visitor-session.entity"
         VisitorSession
     ],
     imports: [PluginCommonModule],
-    providers: [],
+    providers: [TrackingService, QueryService, AggregationService],
     configuration
 })
 export class VisitorAnalyticsPlugin {
     static ui: AdminUiExtension = {
         id: "visitors-analytics",
         extensionPath: path.join(__dirname, "ui"),
-        providers: ["providers.ts"],
-        routes: [{ route: "visitors-analytics", filePath: "routes.ts" }]
+        providers: ["providers.ts"]
     }
 }

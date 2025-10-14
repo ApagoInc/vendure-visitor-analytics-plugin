@@ -15,6 +15,7 @@ import {
 
 @Entity()
 @Index(["date"])
+@Index(["product", "date"])
 @Index(["date", "channel", "product"], { unique: true })
 export class DailyProductViewStat extends VendureEntity {
     constructor(input?: DeepPartial<DailyProductViewStat>) {
