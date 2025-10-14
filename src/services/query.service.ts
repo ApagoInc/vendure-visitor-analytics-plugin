@@ -1,5 +1,10 @@
 import { Injectable } from "@nestjs/common"
-import { ID, RequestContext, TransactionalConnection } from "@vendure/core"
+import {
+    ID,
+    ProductService,
+    RequestContext,
+    TransactionalConnection
+} from "@vendure/core"
 
 import { DailyProductViewStat } from "../entities/daily-product-view-stat.entity"
 import { DailyVisitorStat } from "../entities/daily-visitor-stat.entity"
@@ -27,7 +32,10 @@ export interface ProductTrendPoint {
 
 @Injectable()
 export class QueryService {
-    constructor(private connection: TransactionalConnection) {}
+    constructor(
+        private connection: TransactionalConnection,
+        private productService: ProductService
+    ) {}
 
     /**
      * Get visitor timeseries data for a date range.
@@ -69,26 +77,30 @@ export class QueryService {
             .createQueryBuilder("stat")
             .select("stat.productId", "productId")
             .addSelect("SUM(stat.views)", "totalViews")
-            .leftJoinAndSelect("stat.product", "product")
             .where("stat.date >= :start", { start: range.start })
             .andWhere("stat.date <= :end", { end: range.end })
             .andWhere("stat.channelId = :channelId", {
                 channelId: ctx.channelId
             })
             .groupBy("stat.productId")
-            .addGroupBy("product.id")
-            .orderBy("totalViews", "DESC")
+            .orderBy('"totalViews"', "DESC")
             .limit(limit)
-            .getRawAndEntities()
+            .getRawMany()
 
-        return results.raw.map((raw, index) => {
-            const entity = results.entities[index]
-            return {
-                productId: raw.productId,
-                name: entity?.product?.name,
-                views: parseInt(raw.totalViews, 10)
-            }
-        })
+        // Fetch product details to get names
+        const productIds = results.map(r => r.productId)
+        const products = await Promise.all(
+            productIds.map(id => this.productService.findOne(ctx, id))
+        )
+
+        // Create a map of productId to name
+        const productNameMap = new Map(products.map(p => [p?.id, p?.name]))
+
+        return results.map(raw => ({
+            productId: raw.productId,
+            name: productNameMap.get(raw.productId),
+            views: parseInt(raw.totalViews || raw.totalviews, 10)
+        }))
     }
 
     /**
