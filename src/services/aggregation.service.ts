@@ -128,8 +128,9 @@ export class AggregationService {
         const results = await this.connection
             .getRepository(ctx, VisitorEvent)
             .createQueryBuilder("event")
+            .innerJoin("event.session", "session")
             .select("event.productId", "productId")
-            .addSelect("COUNT(DISTINCT event.sessionId)", "viewCount")
+            .addSelect("COUNT(DISTINCT session.id)", "viewCount")
             .innerJoin("event.channels", "channel", "channel.id = :channelId", {
                 channelId
             })

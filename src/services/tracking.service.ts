@@ -140,12 +140,11 @@ export class TrackingService {
     ): Promise<boolean> {
         const count = await this.connection
             .getRepository(ctx, VisitorEvent)
-            .count({
-                where: {
-                    sessionId,
-                    eventKey
-                }
-            })
+            .createQueryBuilder("event")
+            .innerJoin("event.session", "session")
+            .where("session.id = :sessionId", { sessionId })
+            .andWhere("event.eventKey = :eventKey", { eventKey })
+            .getCount()
 
         return count > 0
     }

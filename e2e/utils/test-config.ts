@@ -1,4 +1,4 @@
-import { mergeConfig } from "@vendure/core"
+import { UuidIdStrategy, mergeConfig } from "@vendure/core"
 import { testConfig as defaultTestConfig } from "@vendure/testing"
 import { DataSourceOptions } from "typeorm"
 
@@ -15,6 +15,9 @@ export const testConfig = (port: number) => {
     return mergeConfig(defaultTestConfig, {
         apiOptions: {
             port
+        },
+        entityOptions: {
+            entityIdStrategy: new UuidIdStrategy()
         },
         dbConnectionOptions: getDbConfig()
     })
