@@ -62,15 +62,13 @@ export class TrackingService {
             return { recorded: false, reason: "channel_not_found" }
         }
 
-        const event = new VisitorEvent({
+        await this.connection.getRepository(ctx, VisitorEvent).save({
             type: "PRODUCT_VIEW",
             session,
             product,
             eventKey,
             channels: [activeChannel]
         })
-
-        await this.connection.getRepository(ctx, VisitorEvent).save(event)
 
         session.lastSeen = new Date()
         await this.connection.getRepository(ctx, VisitorSession).save(session)

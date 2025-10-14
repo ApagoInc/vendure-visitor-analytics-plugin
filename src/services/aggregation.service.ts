@@ -97,14 +97,11 @@ export class AggregationService {
                 .getRepository(ctx, DailyVisitorStat)
                 .save(stat)
         } else {
-            const newStat = new DailyVisitorStat({
+            await this.connection.getRepository(ctx, DailyVisitorStat).save({
                 date,
                 channel,
                 uniqueVisitors: result
             })
-            await this.connection
-                .getRepository(ctx, DailyVisitorStat)
-                .save(newStat)
         }
 
         Logger.debug(
@@ -169,15 +166,14 @@ export class AggregationService {
                     .getRepository(ctx, DailyProductViewStat)
                     .save(existingStat)
             } else {
-                const newStat = new DailyProductViewStat({
-                    date,
-                    channel,
-                    productId,
-                    views: viewCount
-                })
                 await this.connection
                     .getRepository(ctx, DailyProductViewStat)
-                    .save(newStat)
+                    .save({
+                        date,
+                        channel,
+                        productId,
+                        views: viewCount
+                    })
             }
         }
 
