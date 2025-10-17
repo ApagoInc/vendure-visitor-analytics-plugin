@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config"
 
 export default defineConfig({
     root: __dirname,
-    cacheDir: "../../node_modules/.vite/packages/avatax",
+    cacheDir: "./node_modules/.vite/packages/avatax",
     plugins: [
         tsconfigPaths(),
         swc.vite({
