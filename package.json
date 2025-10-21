@@ -39,7 +39,7 @@
     "CHANGELOG.md"
   ],
   "author": "Apago Inc",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "lint-staged": {
     "**/*.*": [
       "yarn fix"
