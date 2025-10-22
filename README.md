@@ -1,3 +1,4 @@
+![Banner Image](https://raw.githubusercontent.com/ApagoInc/vendure-visitor-analytics-plugin/refs/heads/main/assets/banner.jpg)
 # Vendure Visitor Analytics Plugin
 
 A comprehensive visitor analytics plugin for Vendure that tracks product views, visitor sessions, and provides detailed analytics dashboards in the admin UI.
