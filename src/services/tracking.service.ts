@@ -55,20 +55,16 @@ export class TrackingService {
             return { recorded: false, reason: "product_not_found" }
         }
 
-        const channels = await this.channelService.findAll(ctx)
-        const activeChannel = channels.items.find(c => c.id === ctx.channelId)
-
-        if (!activeChannel) {
-            return { recorded: false, reason: "channel_not_found" }
-        }
-
-        await this.connection.getRepository(ctx, VisitorEvent).save({
+        const visitorEvent = new VisitorEvent({
             type: "PRODUCT_VIEW",
             session,
             product,
-            eventKey,
-            channels: [activeChannel]
+            eventKey
         })
+        await this.channelService.assignToCurrentChannel(visitorEvent, ctx)
+        await this.connection
+            .getRepository(ctx, VisitorEvent)
+            .save(visitorEvent)
 
         session.lastSeen = new Date()
         await this.connection.getRepository(ctx, VisitorSession).save(session)

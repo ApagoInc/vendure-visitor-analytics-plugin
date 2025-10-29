@@ -1,6 +1,6 @@
 {
   "name": "@apagoinc/vendure-visitor-analytics-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Visitor analytics plugin for Vendure",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
